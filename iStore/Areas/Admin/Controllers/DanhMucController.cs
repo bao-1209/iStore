@@ -10,10 +10,10 @@ namespace iStore.Areas.Admin.Controllers
 {
     public class DanhMucController : Controller
     {
+        private readonly iStoreDB db = new iStoreDB();
         // GET: Admin/DanhMuc
         public ActionResult Index()
         {
-            iStoreDB db = new iStoreDB();
             List<DanhMuc> danhMucs = db.DanhMucs.ToList();
             return View(danhMucs);
         }
@@ -27,7 +27,6 @@ namespace iStore.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult taoDanhMuc(DanhMuc taodanhmuc)
         {
-            iStoreDB db = new iStoreDB();
             db.DanhMucs.Add(taodanhmuc);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -35,7 +34,6 @@ namespace iStore.Areas.Admin.Controllers
 
         public ActionResult suaDanhMuc(int id)
         {
-            iStoreDB db = new iStoreDB();
             DanhMuc danhmuc = db.DanhMucs.Where(row => row.id_danhmuc == id).FirstOrDefault();
             return View(danhmuc);
         }
@@ -43,7 +41,6 @@ namespace iStore.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult suaDanhMuc(DanhMuc suadanhmuc)
         {
-            iStoreDB db = new iStoreDB();
             DanhMuc danhmuc = db.DanhMucs.Where(row => row.id_danhmuc == suadanhmuc.id_danhmuc).FirstOrDefault();
 
             //cap nhat
@@ -52,5 +49,29 @@ namespace iStore.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult xoaDanhMuc(int id)
+        {
+            DanhMuc danhmuc = db.DanhMucs.Find(id);
+            if (danhmuc == null)
+            {
+                return HttpNotFound();
+            }
+            return View(danhmuc);
+        }
+
+        // Xóa - Xác nhận xóa
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult xacnhanxoaDanhMuc(int id)
+        {
+            DanhMuc danhmuc = db.DanhMucs.Find(id);
+            if (danhmuc != null)
+            {
+                db.DanhMucs.Remove(danhmuc);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+       
+        }
     }
 }

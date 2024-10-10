@@ -188,6 +188,7 @@
     <Content Include="Areas\Admin\Views\ThanhToan\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DanhMuc\taoDanhMuc.cshtml" />
     <Content Include="Areas\Admin\Views\DanhMuc\suaDanhMuc.cshtml" />
+    <Content Include="Areas\Admin\Views\DanhMuc\xoaDanhMuc.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />

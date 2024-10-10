@@ -1,8 +1,60 @@
-﻿
+﻿@model List<iStore.Models.SanPham>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2 class="mb-5">Danh sách sản phẩm</h2>
+<a class="btn btn-success" href="@Url.Action("taoSanPham", "SanPham")">Thêm sản phẩm</a>
+<form class="d-flex flex-row align-items-center flex-wrap" method="get">
+    <label for="search" class="mx-2 my-1">Tìm kiếm</label>
+    <input type="search"
+           class="form-control w-auto"
+           id="search"
+           name="search"
+           value="@ViewBag.Search"
+           placeholder="Tên sản phẩm" />
+    <button type="submit" class="btn btn-primary mx-2"><i class="lni lni-search-alt"></i></button>
+</form>
 
+<table class="table">
+    <tr>
+        <th>
+            <a href="@Url.Action("Index", new { SortColumn = "id_sanpham", IconClass = ViewBag.IconClass })">ID</a>
+            @if (ViewBag.SortColumn == "id_sanpham")
+            {
+                <i class="fa @ViewBag.IconClass"></i>
+            }
+        </th>
+        <th>Danh mục</th>
+        <th>Thương hiệu</th>
+        <th>
+            <a href="@Url.Action("Index", new { SortColumn = "ten_sanpham", IconClass = ViewBag.IconClass })">Tên sản phẩm</a>
+            @if (ViewBag.SortColumn == "ten_sanpham")
+            {
+                <i class="fa @ViewBag.IconClass"></i>
+            }
+        </th>
+        <th>Giá</th>
+        <th>Mô tả</th>
+        <th>Tồn kho</th>
+        <th>Hành động</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.id_sanpham</td>
+            <td>@item.DanhMuc.ten_danhmuc</td>
+            <td>@item.ThuongHieu.ten_thuonghieu</td>
+            <td>@item.ten_sanpham</td>
+            <td>@item.gia_sanpham.ToString("N0")</td>
+            <td>@item.mota</td>
+            <td>@item.soluong</td>
+            <td>
+                <a class="btn btn-warning" href="@Url.Action("suaSanPham", "SanPham", new { id = item.id_sanpham })">Sửa</a>
+                <a class="btn btn-danger" href="@Url.Action("xoaSanPham", "SanPham", new { id = item.id_sanpham })">Xóa</a>
+            </td>
+        </tr>
+    }
+</table>
