@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "taoDanhMuc";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-5">Thêm danh mục</h2>
+
+<form action="@Url.Action("taoDanhMuc", "DanhMuc", new {area = "Admin"})" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <label for="ten_danhmuc">Tên danh mục</label>
+            <input type="text"
+                   class="form-control"
+                   id="ten_danhmuc"
+                   name="ten_danhmuc" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success my-2">Tạo</button>
+    <a href="@Url.Action("Index", "taoDanhMuc", new {area = "Admin"})" class="btn btn-dark">Hủy</a>
+</form>
+
+

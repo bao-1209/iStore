@@ -1,8 +1,29 @@
-﻿
+﻿@model List<iStore.Models.DanhMuc>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Danh Mục</h2>
 
+<i class="lni lni-trash-3"></i>
+
+<a href="@Url.Action("taoDanhMuc","DanhMuc", new {area = "Admin"})">Thêm danh mục mới</a>
+<table class="table w-75">
+    <tr>
+        <th class="w-25">ID danh mục</th>
+        <th class="w-50">Tên danh mục</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.)
+    {
+        <tr>
+            <td>@item.id_danhmuc</td>
+            <td>@item.ten_danhmuc</td>
+            <td>
+                <a class="btn btn-warning" href="@Url.Action("suaDanhMuc", "DanhMuc", new { id = item.id_danhmuc })">Chỉnh sửa</a>
+                <a class="btn btn-danger" href="@Url.Action("xoaDanhMuc", "DanhMuc", new { id = item.id_danhmuc })">Xóa</a>
+            </td>
+        </tr>
+    }
+</table>
