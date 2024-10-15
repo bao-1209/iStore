@@ -1,0 +1,31 @@
+﻿@model iStore.Models.ThuongHieu
+
+@{
+    ViewBag.Title = "Sửa thương hiệu";
+    Layout = "~/Areas/Admin/Views/Shared/_ProductsLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <h2 class="mb-4">Chỉnh sửa thương hiệu</h2>
+
+    <form method="post" action="@Url.Action("Sua", "ThuongHieu", new { area = "Admin" })" class="border rounded p-4 shadow-sm bg-light">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label for="ten_thuonghieu" class="form-label">Tên thương hiệu <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="ten_thuonghieu" name="ten_thuonghieu"
+                   value="@Model.ten_thuonghieu" required />
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorTenThuongHieu))
+            {
+                <span class="text-danger">@ViewBag.ErrorTenThuongHieu</span>
+            }
+        </div>
+
+        <input type="hidden" name="id_thuonghieu" value="@Model.id_thuonghieu" /> <!-- Thêm để giữ ID thương hiệu -->
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a href="@Url.Action("Index", "ThuongHieu")" class="btn btn-secondary ms-2">Quay lại</a>
+        </div>
+    </form>
+</div>

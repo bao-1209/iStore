@@ -1,0 +1,39 @@
+﻿
+
+@{
+    ViewBag.Title = "Xóa";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-5">Xóa danh mục</h2>
+
+<form id="deleteForm" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id_danhmuc" value="@Model.id_danhmuc" />
+</form>
+
+<form action="@Url.Action("xacnhanxoaDanhMuc", "DanhMuc", new { area = "Admin" })" method="post">
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <label for="ten_danhmuc">Tên danh mục</label>
+            <input type="text"
+                   class="form-control"
+                   id="ten_danhmuc"
+                   name="ten_danhmuc"
+                   value="@Model.ten_danhmuc" disabled />
+        </div>
+    </div>
+    <button type="button" onclick="confirmDelete()" class="btn btn-success">Xóa</button>
+    <a href="@Url.Action("Index", "DanhMuc", new { area = "Admin" })" class="btn btn-dark">Hủy</a>
+</form>
+
+<script>
+    function confirmDelete() {
+        if (confirm("Bạn có chắc chắn muốn xóa danh mục này không?")) {
+            var id_danhmuc = document.querySelector('input[name="id_danhmuc"]').value;
+            var form = document.getElementById("deleteForm");
+            form.action = "@Url.Action("xacnhanxoaDanhMuc", "DanhMuc", new { area = "Admin" })" + "/" + id_danhmuc;
+            form.submit();
+        }
+    }
+</script>

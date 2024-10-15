@@ -1,0 +1,84 @@
+﻿@model iStore.Models.SanPham
+
+@{
+    ViewBag.Title = "Sửa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_ProductsLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <h2 class="mb-4">Sửa sản phẩm</h2>
+
+    <form method="post" action="@Url.Action("Sua", "SanPham", new { area = "Admin" })" enctype="multipart/form-data" class="border rounded p-4 shadow-sm bg-light">
+        @Html.AntiForgeryToken()
+        
+        <!-- Thông tin sản phẩm -->
+        @Html.HiddenFor(model => model.id_sanpham)
+
+        <div class="mb-3">
+            <label for="ten_sanpham" class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="ten_sanpham" name="ten_sanpham" value="@Model.ten_sanpham" required />
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_danhmuc" class="form-label">Danh Mục <span class="text-danger">*</span></label>
+                <select class="form-select" name="id_danhmuc" id="id_danhmuc" required>
+                    <option value="" disabled>Vui lòng chọn..</option>
+                    @foreach (var danhmuc in ViewBag.DanhMuc)
+                    {
+                        <option value="@danhmuc.id_danhmuc" @(danhmuc.id_danhmuc == Model.id_danhmuc ? "selected" : "")>@danhmuc.ten_danhmuc</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="id_thuonghieu" class="form-label">Thương hiệu <span class="text-danger">*</span></label>
+                <select class="form-select" name="id_thuonghieu" id="id_thuonghieu" required>
+                    <option value="" disabled>Vui lòng chọn..</option>
+                    @foreach (var thuonghieu in ViewBag.ThuongHieu)
+                    {
+                        <option value="@thuonghieu.id_thuonghieu" @(thuonghieu.id_thuonghieu == Model.id_thuonghieu ? "selected" : "")>@thuonghieu.ten_thuonghieu</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="gia_sanpham" class="form-label">Giá (VNĐ) <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="gia_sanpham" name="gia_sanpham" value="@Model.gia_sanpham" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="soluong" class="form-label">Số lượng <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="soluong" name="soluong" value="@Model.soluong" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="mota" class="form-label">Mô tả sản phẩm <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="mota" name="mota" rows="3" required>@Model.mota</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="uploadImage" class="form-label">Hình ảnh sản phẩm (có thể thay thế) <span class="text-danger">*</span></label>
+            <input type="file" class="form-control" id="uploadImage" name="uploadImage" accept="image/*" onchange="showPreview(event)" />
+            <!-- Hiển thị hình ảnh hiện tại -->
+            <img id="imagePreview" src="@Url.Content("~/Assets/img_sanpham/" + Model.url_hinhanh)" alt="Hình ảnh sản phẩm" style="max-width:200px; margin-top:10px;" @(string.IsNullOrEmpty(Model.url_hinhanh) ? "style='display:none;'" : "") />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="@Url.Action("Index", "SanPham", new { area = "Admin" })" class="btn btn-secondary">Trở về</a>
+    </form>
+</div>
+
+<script>
+    function showPreview(event) {
+        const imagePreview = document.getElementById('imagePreview');
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+</script>

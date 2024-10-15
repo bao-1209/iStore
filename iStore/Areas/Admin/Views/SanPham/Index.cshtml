@@ -1,0 +1,106 @@
+﻿@model List<iStore.Models.SanPham>
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_ProductsLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">Danh sách sản phẩm</h2>
+            <a class="btn btn-sm btn-success" href="@Url.Action("Tao", "SanPham", new { area = "Admin" })">Thêm sản phẩm</a>
+        </div>
+
+        <div class="card-body">
+            @if (Model != null && Model.Count > 0)
+            {
+                <form class="d-flex flex-row align-items-center flex-wrap mb-4" method="get">
+                    <label for="search" class="mx-2 my-1">Tìm kiếm:</label>
+                    <input type="search" class="form-control w-auto" id="search" name="search" value="@ViewBag.Search" placeholder="Nhập tên sản phẩm..." />
+                    <button type="submit" class="btn btn-primary mx-2">
+                        <i class="lni lni-search-alt"></i> Tìm kiếm
+                    </button>
+                </form>
+
+                <table class="table table-hover table-bordered shadow-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th>
+                                <a href="@Url.Action("Index", new { SortColumn = "id_sanpham", IconClass = ViewBag.IconClass })" class="text-decoration-none">ID</a>
+                                @if (ViewBag.SortColumn == "id_sanpham")
+                                {
+                                    <i class="fa @ViewBag.IconClass"></i>
+                                }
+                            </th>
+                            <th>Danh mục</th>
+                            <th>Thương hiệu</th>
+                            <th>
+                                <a href="@Url.Action("Index", new { SortColumn = "ten_sanpham", IconClass = ViewBag.IconClass })" class="text-decoration-none">Tên sản phẩm</a>
+                                @if (ViewBag.SortColumn == "ten_sanpham")
+                                {
+                                    <i class="fa @ViewBag.IconClass"></i>
+                                }
+                            </th>
+                            <th>Hình ảnh</th>
+                            <th>
+                                <a href="@Url.Action("Index", new { SortColumn = "gia_sanpham", IconClass = ViewBag.IconClass })" class="text-decoration-none">Giá (VNĐ)</a>
+                                @if (ViewBag.SortColumn == "gia_sanpham")
+                                {
+                                    <i class="fa @ViewBag.IconClass"></i>
+                                }
+                            </th>
+                            <th>Mô tả</th>
+                            <th>
+                                <a href="@Url.Action("Index", new { SortColumn = "soluong", IconClass = ViewBag.IconClass })" class="text-decoration-none">Tồn kho</a>
+                                @if (ViewBag.SortColumn == "soluong")
+                                {
+                                    <i class="fa @ViewBag.IconClass"></i>
+                                }
+                            </th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.id_sanpham</td>
+                                <td>@(item.DanhMuc != null ? item.DanhMuc.ten_danhmuc : "Không có danh mục")</td>
+                                <td>@(item.ThuongHieu != null ? item.ThuongHieu.ten_thuonghieu : "Không có thương hiệu")</td>
+                                <td>@item.ten_sanpham</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.url_hinhanh))
+                                    {
+                                        <img style="width: 50px; height: 50px" src="@Url.Content("~/Assets/img_sanpham/" + item.url_hinhanh)" alt="Hình ảnh sản phẩm" />
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Không có hình ảnh</span>
+                                    }
+                                </td>
+                                <td>@item.gia_sanpham.ToString("N0")</td>
+                                <td>@item.mota</td>
+                                <td>@item.soluong</td>
+                                <td class="text-center">
+                                    <a class="btn btn-warning btn-sm" href="@Url.Action("Sua", "SanPham", new { id = item.id_sanpham })" title="Sửa">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm" href="@Url.Action("Xoa", "SanPham", new { id = item.id_sanpham })" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');" title="Xóa">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <a class="btn btn-secondary btn-sm" href="@Url.Action("ChiTiet", "SanPham", new { id = item.id_sanpham })" title="Chi tiết">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-danger">Không có sản phẩm nào. Vui lòng thêm sản phẩm.</p>
+            }
+        </div>
+    </div>
+</div>

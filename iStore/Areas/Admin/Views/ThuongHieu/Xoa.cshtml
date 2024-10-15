@@ -1,0 +1,22 @@
+﻿@model iStore.Models.ThuongHieu
+
+@{
+    ViewBag.Title = "Xóa thương hiệu";
+    Layout = "~/Areas/Admin/Views/Shared/_ProductsLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <h2 class="mb-4">Xóa thương hiệu</h2>
+
+    <form method="post" action="@Url.Action("xacnhanXoa", "ThuongHieu", new { area = "Admin" })" class="border rounded p-4 shadow-sm bg-light">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.id_thuonghieu" />
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="mb-0">Bạn có chắc chắn muốn xóa thương hiệu <strong>@Model.ten_thuonghieu</strong> ?</p>
+            <div>
+                <button type="submit" class="btn btn-danger">Xóa</button>
+                <a href="@Url.Action("Index", "ThuongHieu", new { area = "Admin" })" class="btn btn-secondary ms-2">Hủy</a>
+            </div>
+        </div>
+    </form>
+</div>
